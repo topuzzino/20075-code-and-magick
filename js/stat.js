@@ -1,3 +1,4 @@
+'use strict'
 
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
@@ -7,7 +8,7 @@ var GAP = 10;
 
 var LEFT_EDGE = 200;
 var TOP_EDGE = 100;
-var FONT_GAP = 100;
+
 var BAR_WEIGHT = 40;
 var BAR_GAP = 50;
 var MAX_BAR = 150;
@@ -31,14 +32,14 @@ var getMaxElement = function (arr) {
     }
   }
   return maxElement;
-}
+};
 
 // функция выбора случайного числа между заданными min & max
 var randomNumber = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
@@ -61,14 +62,14 @@ window.renderStatistics = function (ctx, names, times) {
     if (names[i] === 'Вы') {
       barColor = 'rgba(255, 0, 0, 1)';
     } else {
-      barColor = 'hsl(240, ' + randomNumber(0, 100) + '%, 50%)'; // rgba(0, 0, 255, 1)
+      barColor = 'hsl(240, '+ randomNumber(0, 100) +'%, 50%)'; // rgba(0, 0, 255, 1)
     }
 
 
     // отрисовка прямоугольников в соответствии с очками игроков
     // winner (макс очки) -------> 150px (MAX_BAR)
     // игроки (times[i])  ------->  ?px
-    barHeight = (Math.round(times[i]) *  MAX_BAR) / maxTime;
+    barHeight = (Math.round(times[i]) * MAX_BAR) / maxTime;
 
     ctx.fillStyle = '#000';
     ctx.fillText(names[i], LEFT_EDGE + BAR_GAP * i, TOP_EDGE - GAP * 2);
@@ -76,4 +77,4 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillRect(LEFT_EDGE + BAR_GAP * i, TOP_EDGE - GAP, BAR_WEIGHT, barHeight);
     ctx.fillText(Math.round(times[i]), LEFT_EDGE + BAR_GAP * i, TOP_EDGE + GAP + MAX_BAR);
   }
-}
+};
