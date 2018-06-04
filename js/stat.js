@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
@@ -62,7 +62,7 @@ window.renderStatistics = function (ctx, names, times) {
     if (names[i] === 'Вы') {
       barColor = 'rgba(255, 0, 0, 1)';
     } else {
-      barColor = 'hsl(240, '+ randomNumber(0, 100) +'%, 50%)'; // rgba(0, 0, 255, 1)
+      barColor = 'hsl(240, ' + randomNumber(0, 100) + '%, 50%)'; // rgba(0, 0, 255, 1)
     }
 
 
