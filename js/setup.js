@@ -32,11 +32,11 @@ var wizards = [];
 
 // функция отрисовки персонажей
 var getWizards = function () {
-    return {
-      name: WIZARD_NAMES[randomItem(0, WIZARD_NAMES.length - 1)] + ' ' + WIZARD_SURNAMES[randomItem(0, WIZARD_SURNAMES.length - 1)],
-      coatColor: COAT_COLORS[randomItem(0, COAT_COLORS.length - 1)],
-      eyesColor: EYES_COLORS[randomItem(0, EYES_COLORS.length - 1)]
-    }
+  return {
+    name: WIZARD_NAMES[randomItem(0, WIZARD_NAMES.length - 1)] + ' ' + WIZARD_SURNAMES[randomItem(0, WIZARD_SURNAMES.length - 1)],
+    coatColor: COAT_COLORS[randomItem(0, COAT_COLORS.length - 1)],
+    eyesColor: EYES_COLORS[randomItem(0, EYES_COLORS.length - 1)]
+  };
 };
 
 var renderWizard = function (wizard) {
@@ -52,14 +52,14 @@ var renderWizard = function (wizard) {
 // вставляет в пустой массив wizards элементы из функции getWizards()
 for (var i = 0; i < WIZARD_NUMBER; i++) {
   wizards[i] = getWizards();
-};
+}
 
 // создает контейнер для будущих данных
 var fragment = document.createDocumentFragment();
 
 // Отрисовывает шаблон в документ
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
-};
+for (var j = 0; j < wizards.length; j++) {
+  fragment.appendChild(renderWizard(wizards[j]));
+}
 
 similarListElement.appendChild(fragment);
