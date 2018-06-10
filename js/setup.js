@@ -11,10 +11,7 @@ document.querySelector('.setup-similar').classList.remove('hidden');
 var similarListElement = document.querySelector('.setup-similar-list');
 
 // находит шаблон, который мы будем копировать.
-var similarWizardTemplate = document.querySelector('#similar-wizard-template')
-  .content
-  .querySelector('.setup-similar-item');
-
+var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
@@ -23,22 +20,28 @@ var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
 var WIZARD_NUMBER = 4;
 
+
+// функция получает рандомное число между min и max
 var randomItem = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-// будущий список похожих персонажей
-var wizards = [];
 
 // функция отрисовки персонажей
 var getWizards = function () {
+  var nameIndex = randomItem(0, WIZARD_NAMES.length - 1);
+  var surnameIndex = randomItem(0, WIZARD_SURNAMES.length - 1);
+  var coatColorIndex = randomItem(0, COAT_COLORS.length - 1);
+  var eyesColorIndex = randomItem(0, EYES_COLORS.length - 1);
   return {
-    name: WIZARD_NAMES[randomItem(0, WIZARD_NAMES.length - 1)] + ' ' + WIZARD_SURNAMES[randomItem(0, WIZARD_SURNAMES.length - 1)],
-    coatColor: COAT_COLORS[randomItem(0, COAT_COLORS.length - 1)],
-    eyesColor: EYES_COLORS[randomItem(0, EYES_COLORS.length - 1)]
+    name: WIZARD_NAMES[nameIndex] + ' ' + WIZARD_SURNAMES[surnameIndex],
+    coatColor: COAT_COLORS[coatColorIndex],
+    eyesColor: EYES_COLORS[eyesColorIndex]
   };
 };
 
+
+// функция создает копию шаблона и вставляет в него из массива рандомные имена, цвета мантии и цвет глаз
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
@@ -49,17 +52,33 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
+
 // вставляет в пустой массив wizards элементы из функции getWizards()
-for (var i = 0; i < WIZARD_NUMBER; i++) {
-  wizards[i] = getWizards();
-}
+var generateWizards = function (wizardCount) {
+  var wizards = [];
+  for (var i = 0; i < wizardCount; i++) {
+    wizards[i] = getWizards();
+  }
+  return wizards;
+};
+
+// будущий список похожих персонажей
+var wizards = generateWizards(WIZARD_NUMBER);
+
 
 // создает контейнер для будущих данных
 var fragment = document.createDocumentFragment();
 
+
 // Отрисовывает шаблон в документ
-for (var j = 0; j < wizards.length; j++) {
-  fragment.appendChild(renderWizard(wizards[j]));
-}
+var getWizardTemplate = function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    fragment.appendChild(renderWizard(wizards[i]));
+  }
+};
+
+getWizardTemplate(wizards);
 
 similarListElement.appendChild(fragment);
+
+
