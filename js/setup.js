@@ -1,8 +1,15 @@
 'use strict';
 
-// показывает все окно, в котором происходит "действие"
+var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+
+var WIZARD_NUMBER = 4;
+
+
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+
 
 // показывает блок с похожими персонажами
 document.querySelector('.setup-similar').classList.remove('hidden');
@@ -13,17 +20,9 @@ var similarListElement = document.querySelector('.setup-similar-list');
 // находит шаблон, который мы будем копировать.
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
-var WIZARD_NUMBER = 4;
-
-
-// функция получает рандомное число между min и max
-var randomItem = function (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+var randomItem = function (items) {
+  return items[Math.floor(Math.random() * items.length)];
 };
 
 
@@ -82,3 +81,94 @@ getWizardTemplate(wizards);
 similarListElement.appendChild(fragment);
 
 
+// ----------------------------------------
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = userDialog.querySelector('.setup-close');
+var setupSubmit = document.querySelector('.setup-submit');
+var setupForm = document.querySelector('.setup-wizard-form');
+var setupUserName = document.querySelector('.setup-user-name');
+
+
+var setupCloseEscape = function (evt) { // if ESC, close setup
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeSetup();
+  }
+};
+var setupCloseEnter = function (evt) { // if ENTER, open Popup
+  // / если фокус не на инпуте с именем, то закрывать с помощью ENTER
+  if (evt.keyCode === ENTER_KEYCODE && evt.className !== '.setup-user-name') {
+    closeSetup();
+  }
+};
+
+var openSetup = function () { // функция открытия окна персонажа
+  userDialog.classList.remove('hidden');
+  document.addEventListener('keydown', setupCloseEscape); // если окно открыто, то ESC можно закрыть
+};
+
+var closeSetup = function () { // функция закрытия окна персонажа
+  userDialog.classList.add('hidden');
+  document.removeEventListener('keydown', setupCloseEscape); // обработчик закрытия окна по нажатию на Esc удаляется после закрытия окна
+};
+
+// открывает/закрывает окно персонажа по клику
+setupOpen.addEventListener('click', openSetup);
+setupClose.addEventListener('click', closeSetup);
+
+setupOpen.addEventListener('keydown', function (evt) { // обработчик keydown - открывает окно по нажатию ENTER
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openSetup();
+  }
+});
+
+setupClose.addEventListener('focus', function (evt) { // обработчик focus на крестике окна
+  setupClose.addEventListener('keydown', function () {
+    setupCloseEnter(evt);
+  });
+});
+
+setupSubmit.addEventListener('click', function () {
+  setupForm.submit();
+});
+
+setupSubmit.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    setupForm.submit();
+  }
+});
+
+
+var wizardCoat = document.querySelector('.wizard-coat');
+
+// клик по мантии меняет цвет мантии
+wizardCoat.addEventListener('click', function () {
+  var getRandomCoat = randomItem(COAT_COLORS);
+  wizardCoat.style.fill = getRandomCoat;
+  userDialog.querySelector('[name = coat-color]').value = getRandomCoat; // значение соответствующего скрытого инпута
+});
+
+
+var wizardEyes = document.querySelector('.wizard-eyes');
+
+// клик по глазам меняет их цвет
+wizardEyes.addEventListener('click', function () {
+  var getRandomEyes = randomItem(EYES_COLORS);
+  wizardEyes.style.fill = getRandomEyes;
+  userDialog.querySelector('[name=eyes-color]').value = getRandomEyes; // значение соответствующего скрытого инпута
+});
+
+
+var FIREBALLS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
+var wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+// клик по фаерболу меняет его цвет
+wizardFireball.addEventListener('click', function () {
+  var getRandomFireball = randomItem(FIREBALLS);
+  wizardFireball.style.backgroundColor = getRandomFireball;
+  userDialog.querySelector('[name=fireball-color]').value = getRandomFireball; // значение соответствующего скрытого инпута
+});
