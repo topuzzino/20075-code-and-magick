@@ -90,7 +90,6 @@ var setupOpen = document.querySelector('.setup-open');
 var setupClose = userDialog.querySelector('.setup-close');
 var setupSubmit = document.querySelector('.setup-submit');
 var setupForm = document.querySelector('.setup-wizard-form');
-var setupUserName = document.querySelector('.setup-user-name');
 
 
 var setupCloseEscape = function (evt) { // if ESC, close setup
