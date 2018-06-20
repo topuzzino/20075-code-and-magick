@@ -25,13 +25,18 @@ var randomItem = function (items) {
   return items[Math.floor(Math.random() * items.length)];
 };
 
+// функция получает рандомное число между min и max
+var randomNumber = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
 
 // функция отрисовки персонажей
 var getWizards = function () {
-  var nameIndex = randomItem(0, WIZARD_NAMES.length - 1);
-  var surnameIndex = randomItem(0, WIZARD_SURNAMES.length - 1);
-  var coatColorIndex = randomItem(0, COAT_COLORS.length - 1);
-  var eyesColorIndex = randomItem(0, EYES_COLORS.length - 1);
+  var nameIndex = randomNumber(0, WIZARD_NAMES.length - 1);
+  var surnameIndex = randomNumber(0, WIZARD_SURNAMES.length - 1);
+  var coatColorIndex = randomNumber(0, COAT_COLORS.length - 1);
+  var eyesColorIndex = randomNumber(0, EYES_COLORS.length - 1);
   return {
     name: WIZARD_NAMES[nameIndex] + ' ' + WIZARD_SURNAMES[surnameIndex],
     coatColor: COAT_COLORS[coatColorIndex],
@@ -125,9 +130,7 @@ setupOpen.addEventListener('keydown', function (evt) { // обработчик k
 });
 
 setupClose.addEventListener('focus', function (evt) { // обработчик focus на крестике окна
-  setupClose.addEventListener('keydown', function () {
-    setupCloseEnter(evt);
-  });
+  setupClose.addEventListener('keydown', setupCloseEnter);
 });
 
 setupSubmit.addEventListener('click', function () {
