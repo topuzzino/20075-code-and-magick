@@ -131,7 +131,7 @@ setupOpen.addEventListener('keydown', function (evt) { // обработчик k
   }
 });
 
-setupClose.addEventListener('focus', function (evt) { // обработчик focus на крестике окна
+setupClose.addEventListener('focus', function () { // обработчик focus на крестике окна
   setupClose.addEventListener('keydown', setupCloseEnter);
 });
 
@@ -225,11 +225,11 @@ userPic.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-      var onClickPreventDefault = function (evt) {
+      var onClickPreventDefault = function () {
         evt.preventDefault();
-        userPic.removeEventListener('click', onClickPreventDefault)
+        userPic.removeEventListener('click', onClickPreventDefault);
       };
-      userPic.addEventListener('click', onClickPreventDefault)
+      userPic.addEventListener('click', onClickPreventDefault);
     }
   };
 
