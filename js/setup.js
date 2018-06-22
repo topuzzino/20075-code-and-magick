@@ -86,7 +86,7 @@ getWizardTemplate(wizards);
 similarListElement.appendChild(fragment);
 
 
-// ----------------------------------------
+// -------------------- 4 --------------------
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
@@ -111,6 +111,8 @@ var setupCloseEnter = function (evt) { // if ENTER, open Popup
 
 var openSetup = function () { // функция открытия окна персонажа
   userDialog.classList.remove('hidden');
+  userDialog.style.top = '80px';
+  userDialog.style.left = '50%';
   document.addEventListener('keydown', setupCloseEscape); // если окно открыто, то ESC можно закрыть
 };
 
@@ -174,3 +176,65 @@ wizardFireball.addEventListener('click', function () {
   wizardFireball.style.backgroundColor = getRandomFireball;
   userDialog.querySelector('[name=fireball-color]').value = getRandomFireball; // значение соответствующего скрытого инпута
 });
+
+
+// -------------------- 5 --------------------
+
+
+var userPic = userDialog.querySelector('.upload');
+
+
+userPic.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  // координаты точки, с которой начали перемещать диалог
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var dragged = false;
+
+  // При каждом движении мыши нужно обновлять смещение
+  // относительно первоначальной точки, чтобы диалог смещался
+  // на необходимую величину
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    userDialog.style.top = (userDialog.offsetTop - shift.y) + 'px';
+    userDialog.style.left = (userDialog.offsetLeft - shift.x) + 'px';
+  };
+
+  // При отпускании кнопки мыши нужно переставать
+  // слушать события движения мыши
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (dragged) {
+      var onClickPreventDefault = function (evt) {
+        evt.preventDefault();
+        userPic.removeEventListener('click', onClickPreventDefault)
+      };
+      userPic.addEventListener('click', onClickPreventDefault)
+    }
+  };
+
+  // Добавим обработчики события передвижения мыши и отпускания кнопки мыши
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
