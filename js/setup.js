@@ -225,7 +225,7 @@ userPic.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-      var onClickPreventDefault = function () {
+      var onClickPreventDefault = function (evt) {
         evt.preventDefault();
         userPic.removeEventListener('click', onClickPreventDefault);
       };
